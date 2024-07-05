@@ -11,24 +11,20 @@
 class Solution {
 public:
     ListNode* mergeNodes(ListNode* head) {
-        ListNode* dummy = new ListNode(0);  // Dummy node to handle the result list
-        ListNode* curr = dummy;  // Pointer to construct the result list
-        ListNode* ptr = head->next;  // Pointer to traverse the input list
+        ListNode* ptr = head -> next;
         
-        int sum = 0;  // Sum between zeros
-        
-        while (ptr != nullptr) {
-            if (ptr->val == 0) {
-                // If we hit a zero, we complete the current segment
-                curr->next = new ListNode(sum);  // Create a new node with the sum
-                curr = curr->next;  // Move to the next node in the result list
-                sum = 0;  // Reset the sum for the next segment
-            } else {
-                sum += ptr->val;  // Accumulate values between zeros
+        while(ptr -> next != NULL && ptr -> next -> next != NULL ){
+            if(ptr -> next -> val != 0){
+                ptr -> val += ptr -> next -> val;
+                ptr -> next  = ptr -> next -> next;
             }
-            ptr = ptr->next;  // Move to the next node in the input list
+            else{
+                ptr -> next = ptr -> next -> next;
+                ptr = ptr -> next;
+            }
+           
         }
-        
-        return dummy->next;  // Return the result list, skipping the dummy node
+        ptr -> next = NULL;
+        return head -> next;
     }
 };
