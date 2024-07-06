@@ -8,11 +8,12 @@ public:
             return time + 1;
         }
         else{
+            int p = time % (n-1);
             if((time / (n-1)) % 2 == 0 ){
-                return (time % (n-1)) + 1;
+                return p + 1;
             }
             else{
-                return n - (time % (n-1));
+                return n - p;
             }
         }
 
