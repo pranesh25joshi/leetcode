@@ -21,8 +21,8 @@ public:
                 }
                 pred -> right = curr -> right;
                 curr -> right = curr -> left;
+                curr -> left = nullptr;
             }
-            curr -> left = nullptr;
             curr = curr -> right;
 
         }
