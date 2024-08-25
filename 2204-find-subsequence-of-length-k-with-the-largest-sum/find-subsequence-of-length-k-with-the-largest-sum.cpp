@@ -12,7 +12,6 @@ public:
             k--;
         }
         sort(ans.begin(), ans.end());
-        vector<int> v;
         for( int  i =0; i< ans.size(); i++){
             ans[i] = nums[ans[i]];
         }
