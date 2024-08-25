@@ -8,7 +8,6 @@ public:
         int i = q.top() - 1;
         q.pop();
         int j = q.top() - 1;
-        q.pop();
         return i*j;
     }
 };
