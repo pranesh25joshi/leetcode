@@ -15,7 +15,7 @@ public:
         string convert = ""; 
         for( auto i : s){
             int num = i - 'a' + 1;
-            convert += std::to_string(num);
+            convert += to_string(num);
         }
         return transform( convert, k );
 
