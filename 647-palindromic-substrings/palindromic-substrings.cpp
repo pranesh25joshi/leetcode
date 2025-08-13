@@ -2,10 +2,12 @@ class Solution {
 public:
     int countSubstrings(string s) {
         int count = 0;
+        map<pair<int, int>, bool> map;
         for(int i=0; i<s.length(); i++){
             for(int j=i; j<s.length(); j++){
-                if(finding(i, j, s)){
+                if(map[{i, j}] || finding(i, j, s)){
                     count++;
+                    map[{i,j}] = true;
                 }
 
             }
