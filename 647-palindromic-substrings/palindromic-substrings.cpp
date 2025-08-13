@@ -1,43 +1,30 @@
 class Solution {
 public:
     int countSubstrings(string s) {
-        int count = 0;
-        map<pair<int, int>, int> map;
-        for(int i=0; i<s.length(); i++){
-            for(int j=i; j<s.length(); j++){
-                if(map[{i,j}] == 0){
-                    if(finding(i, j, s)){
-                        map[{i,j}] = 1;
-                        count++;
-                    
-                    }
-                    else{
-                        map[{i,j}] = -1;
-                    }
-                }
-                else if(map[{i,j}] == 1){
+        int n = s.size(), count = 0;
+        map<pair<int,int>, int> memo; // 1 = palindrome, -1 = not palindrome
+
+        for (int i = 0; i < n; ++i) {
+            for (int j = i; j < n; ++j) {
+                if (isPalindrome(i, j, s, memo)) {
                     count++;
                 }
-                else{
-
-                }
-
             }
         }
-        return count;  
+        return count;
     }
-    bool finding(int left, int right, string &s){
 
+private:
+    bool isPalindrome(int left, int right, string &s, map<pair<int,int>, int> &memo) {
+        if (left >= right) return true; // single char or empty substring is palindrome
+        if (memo.count({left, right})) return memo[{left, right}] == 1;
 
-                while(left <right){
-                    if(s[left] == s[right]){
-                        left++;
-                        right--;
-                    }
-                    else{
-                        return false;
-                                        }
-                }
-                return true;
+        if (s[left] == s[right] && isPalindrome(left + 1, right - 1, s, memo)) {
+            memo[{left, right}] = 1;
+            return true;
+        } else {
+            memo[{left, right}] = -1;
+            return false;
+        }
     }
 };
