@@ -1,55 +1,42 @@
 class Solution {
 public:
-
-    bool searchNext(vector<vector<char>> &board, string word, int row, int col, 
-    int index, int m, int n) {
-
-        // if index reaches at the end that means we have found the word
+    bool searchNext(vector<vector<char>>& board, string& word, int row, int col, int index, int m, int n) {
+        // if we matched all characters
         if (index == word.length())
             return true;
 
-        // Checking the boundaries if the character at which we are placed is not 
-        //the required character
-        if (row < 0 || col < 0 || row == m || col == n || board[row][col] != 
-        word[index] or board[row][col] == '!')
+        // boundary + mismatch check
+        if (row < 0 || col < 0 || row >= m || col >= n || board[row][col] != word[index])
             return false;
 
-        // this is to prevent reusing of the same character
+        // store current char & mark visited
         char c = board[row][col];
         board[row][col] = '!';
 
-        // top direction
-        bool top = searchNext(board, word, row - 1, col, index + 1, m, n);
-        // right direction
-        bool right = searchNext(board, word, row, col + 1, index + 1, m, n);
-        // bottom direction
-        bool bottom = searchNext(board, word, row + 1, col, index + 1, m, n);
-        // left direction
-        bool left = searchNext(board, word, row, col - 1, index + 1, m, n);
+        // explore 4 directions
+        bool found = searchNext(board, word, row - 1, col, index + 1, m, n) || // top
+                     searchNext(board, word, row + 1, col, index + 1, m, n) || // bottom
+                     searchNext(board, word, row, col - 1, index + 1, m, n) || // left
+                     searchNext(board, word, row, col + 1, index + 1, m, n);   // right
 
-        board[row][col] = c; // undo change
+        // undo marking
+        board[row][col] = c;
 
-        return top || right || bottom || left;
+        return found;
     }
-    bool exist(vector<vector<char>> board, string word) {
 
+    bool exist(vector<vector<char>>& board, string word) {
         int m = board.size();
         int n = board[0].size();
 
-        int index = 0;
-
-        // First search the first character
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < n; j++) {
-
-                if (board[i][j] == word[index]) {
-                    if (searchNext(board, word, i, j, index, m, n))
+                if (board[i][j] == word[0]) { // match first char
+                    if (searchNext(board, word, i, j, 0, m, n))
                         return true;
                 }
             }
         }
-
         return false;
     }
-
 };
