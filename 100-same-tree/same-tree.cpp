@@ -11,16 +11,24 @@
  */
 class Solution {
 public:
-    bool isSameTree(TreeNode* p, TreeNode* q) {
-        if(p == nullptr && q == nullptr){
+    bool issame(TreeNode* p, TreeNode* q){
+        if(p==nullptr && q == nullptr){
             return true;
         }
-
-        if(p && q && p->val == q->val){
-            return isSameTree(p->left, q->left) && isSameTree(p->right, q->right);
+        else if(p==nullptr || q==nullptr){
+            return false;
         }
 
-        return false;
+        if(p->val != q-> val){
+            return false;
+        }
+        bool iss =  issame(p->left, q->left) && issame(p->right, q->right);
+
+        return iss;
+    }
+    bool isSameTree(TreeNode* p, TreeNode* q) {
+
+        return issame(p,q);
 
     }
 };
