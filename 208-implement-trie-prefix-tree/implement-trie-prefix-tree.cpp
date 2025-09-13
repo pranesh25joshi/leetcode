@@ -1,55 +1,51 @@
-class TrieNode {
-public:
-    TrieNode* children[26];
-    bool isEndOfWord;
+struct TrieNode {
+    TrieNode* children[26];  // For lowercase a-z
+    bool isEnd;
 
     TrieNode() {
-        isEndOfWord = false;
-        for (int i = 0; i < 26; i++) {
-            children[i] = nullptr;
-        }
+        isEnd = false;
+        for (int i = 0; i < 26; i++) children[i] = nullptr;
     }
 };
 
 class Trie {
-public:
+private:
     TrieNode* root;
 
+public:
     Trie() {
         root = new TrieNode();
     }
 
+    // Insert a word into the trie
     void insert(string word) {
         TrieNode* node = root;
         for (char c : word) {
             int index = c - 'a';
-            if (node->children[index] == nullptr) {
+            if (!node->children[index])
                 node->children[index] = new TrieNode();
-            }
             node = node->children[index];
         }
-        node->isEndOfWord = true;
+        node->isEnd = true;
     }
 
+    // Search for a full word
     bool search(string word) {
         TrieNode* node = root;
         for (char c : word) {
             int index = c - 'a';
-            if (node->children[index] == nullptr) {
-                return false;
-            }
+            if (!node->children[index]) return false;
             node = node->children[index];
         }
-        return node->isEndOfWord;
+        return node->isEnd;
     }
 
+    // Check if any word starts with a prefix
     bool startsWith(string prefix) {
         TrieNode* node = root;
         for (char c : prefix) {
             int index = c - 'a';
-            if (node->children[index] == nullptr) {
-                return false;
-            }
+            if (!node->children[index]) return false;
             node = node->children[index];
         }
         return true;
