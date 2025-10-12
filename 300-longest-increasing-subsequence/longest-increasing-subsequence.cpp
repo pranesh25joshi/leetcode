@@ -21,3 +21,5 @@ public:
         return maxi; 
     }
 };
+
+// o(nlogn) and  o(n^2) solution time and space complexity simultaneously.
